@@ -2,8 +2,8 @@
 development:
   dialect: postgres
   database: archive_development
-  user: postgres
-  password: postgres
+  user: Alone
+  password: Alone123!*
   host: 127.0.0.1
   pool: 5
 

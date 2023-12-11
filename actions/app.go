@@ -3,6 +3,7 @@ package actions
 import (
 	"sync"
 
+	"archive/actions/public"
 	"archive/locales"
 	"archive/models"
 
@@ -66,6 +67,7 @@ func App() *buffalo.App {
 		// Remove to disable this.
 		app.Use(popmw.Transaction(models.DB))
 		app.GET("/", HomeHandler)
+		public.Configuration(app)
 	})
 
 	return app
