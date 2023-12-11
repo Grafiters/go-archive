@@ -15,8 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "petstore.swagger.io",
-    "basePath": "/v2",
+    "host": "127.0.0.1:3000",
     "paths": {
         "/": {
             "get": {
@@ -85,6 +84,26 @@
                         }
                     }
                 }
+            }
+        },
+        "/public/meme": {
+            "get": {
+                "description": "This endpoint to get list of meme referances on 9gag.com.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Meme endpoint configuaration",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {}
             }
         }
     },

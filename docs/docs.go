@@ -92,6 +92,26 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/public/meme": {
+            "get": {
+                "description": "This endpoint to get list of meme referances on 9gag.com.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Meme endpoint configuaration",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
@@ -114,8 +134,8 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "petstore.swagger.io",
-	BasePath:         "/v2",
+	Host:             "127.0.0.1:3000",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",
 	Description:      "This is a sample server Petstore server.",
