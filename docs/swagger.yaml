@@ -37,6 +37,31 @@ paths:
       summary: Welcome to Buffalo
       tags:
       - Default
+  /auth:
+    post:
+      description: This is the auth endpoint.
+      produces:
+      - application/json
+      responses: {}
+      summary: Auth handler
+      tags:
+      - Auth
+  /auth/google:
+    post:
+      description: This is the hello endpoint.
+      parameters:
+      - in: formData
+        name: code
+        type: string
+      - in: formData
+        name: redirect_url
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Auth google login
+      tags:
+      - Auth
   /public:
     get:
       description: This is the hello endpoint.

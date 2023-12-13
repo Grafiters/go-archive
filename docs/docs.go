@@ -47,6 +47,44 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth": {
+            "post": {
+                "description": "This is the auth endpoint.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Auth handler",
+                "responses": {}
+            }
+        },
+        "/auth/google": {
+            "post": {
+                "description": "This is the hello endpoint.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Auth google login",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "code",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "redirect_url",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/public": {
             "get": {
                 "description": "This is the hello endpoint.",

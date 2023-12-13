@@ -3,6 +3,7 @@ package actions
 import (
 	"sync"
 
+	"archive/actions/auth"
 	"archive/actions/public"
 	"archive/locales"
 	"archive/models"
@@ -43,7 +44,7 @@ var (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host 192.168.1.37:3000
+// @host 127.0.0.1:3000
 func App() *buffalo.App {
 	appOnce.Do(func() {
 		app = buffalo.New(buffalo.Options{
@@ -70,6 +71,7 @@ func App() *buffalo.App {
 		// Remove to disable this.
 		app.Use(popmw.Transaction(models.DB))
 		app.GET("/", HomeHandler)
+		auth.Configuration(app)
 		public.Configuration(app)
 
 		app.GET("/swagger/{docs:.*}", buffaloSwagger.WrapHandler(swaggerFiles.Handler))
