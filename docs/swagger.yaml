@@ -52,9 +52,11 @@ paths:
       parameters:
       - in: formData
         name: code
+        required: true
         type: string
       - in: formData
         name: redirect_url
+        required: true
         type: string
       produces:
       - application/json

@@ -3,8 +3,6 @@ package actions
 import (
 	"sync"
 
-	"archive/actions/auth"
-	"archive/actions/public"
 	"archive/locales"
 	"archive/models"
 
@@ -70,9 +68,7 @@ func App() *buffalo.App {
 		//   c.Value("tx").(*pop.Connection)
 		// Remove to disable this.
 		app.Use(popmw.Transaction(models.DB))
-		app.GET("/", HomeHandler)
-		auth.Configuration(app)
-		public.Configuration(app)
+		RouteConfiguration(app)
 
 		app.GET("/swagger/{docs:.*}", buffaloSwagger.WrapHandler(swaggerFiles.Handler))
 	})

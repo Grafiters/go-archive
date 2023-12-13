@@ -51,3 +51,10 @@ func (u *User) ValidateCreate(tx *pop.Connection) (*validate.Errors, error) {
 func (u *User) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.NewErrors(), nil
 }
+
+func (u *User) FindUserByEmail(tx *pop.Connection) (*User, error) {
+	user := &User{}
+	err := tx.Where("email = ?", u.Email).First(user)
+
+	return user, err
+}

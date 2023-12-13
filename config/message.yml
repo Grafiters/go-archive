@@ -1,0 +1,29 @@
+# message.yml
+success:
+  code: 200
+  tag: "SUCCESS"
+  message: "successfully to processing data"
+inserted:
+  code: 201
+  tag: "INSERTED"
+  message: "successfully insert or update data"
+validation:
+  code: 422
+  tag: "ERROR_VALIDATION"
+  message: "error on validation params or form body"
+notfound:
+  code: 404
+  tag: "RECORD_NOT_FOUND"
+  message: "record is not found on database"
+unauthorized:
+  code: 401
+  tag: "UNAUTHORIZED"
+  message: "unauthorized user"
+invalid_params:
+  code: 422
+  tag: "INVALID_PARAM"
+  message: "invalid parameter request"
+invalid_format:
+  code: 422
+  tag: "INVALID_FORMAT"
+  message: "invalid format request data"

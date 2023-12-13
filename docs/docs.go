@@ -74,12 +74,14 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "name": "code",
-                        "in": "formData"
+                        "in": "formData",
+                        "required": true
                     },
                     {
                         "type": "string",
                         "name": "redirect_url",
-                        "in": "formData"
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {}

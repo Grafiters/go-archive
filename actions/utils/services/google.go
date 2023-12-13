@@ -71,5 +71,7 @@ func getUserInfo(token *oauth2.Token) (map[string]interface{}, error) {
 		return nil, err
 	}
 
+	fmt.Println(userInfo)
+
 	return userInfo, nil
 }
