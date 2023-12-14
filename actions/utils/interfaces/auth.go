@@ -1,5 +1,12 @@
 package interfaces
 
+import (
+	"archive/models"
+	"crypto/rsa"
+
+	"github.com/dgrijalva/jwt-go"
+)
+
 type LoginGoogle struct {
 	RedirectUrl string `json:"redirect_url" binding:"required" swag:"form"`
 	Code        string `json:"code" binding:"required" swag:"form"`
@@ -10,4 +17,22 @@ type GoogleData struct {
 	Name      string `json:"name" binding:"optional" swag:"form"`
 	GivenName string `json:"given_name" binding:"optional" swag:"form"`
 	Picture   string `json:"picture" binding:"optional" swag:"form"`
+}
+
+type JwtAuth struct {
+	UID      string   `json:"uid"`
+	Email    string   `json:"email"`
+	Audiance []string `json:"aud,omitempty"`
+
+	jwt.StandardClaims
+}
+
+type KeyStore struct {
+	PublicKey  *rsa.PublicKey
+	PrivateKey *rsa.PrivateKey
+}
+
+type SessionAuth struct {
+	User  models.User
+	Token string
 }

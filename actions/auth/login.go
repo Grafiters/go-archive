@@ -34,10 +34,16 @@ func AuthLoginGoogle(c buffalo.Context) error {
 		return c.Render(http.StatusNonAuthoritativeInfo, r.JSON(buildMessage))
 	}
 
+	mustHash, err := services.HashPassword("12345678")
+	if err != nil {
+		buildMessage, _ := services.BuildResponseHandler("invalid_encryption", err)
+		return c.Render(http.StatusNonAuthoritativeInfo, r.JSON(buildMessage))
+	}
+
 	data := &models.User{
 		Email:    authProc.Email,
 		Username: authProc.GivenName,
-		Password: "12345678",
+		Password: mustHash,
 	}
 
 	user, err := validateAndCreate(data)
@@ -46,47 +52,16 @@ func AuthLoginGoogle(c buffalo.Context) error {
 		return c.Render(http.StatusNonAuthoritativeInfo, r.JSON(response))
 	}
 
-	response, err := services.BuildResponseHandler("inserted", user)
+	generateToken, err := services.EncodeToken(user)
+	if err != nil {
+		response, _ := services.BuildResponseHandler("validation", err)
+		return c.Render(http.StatusNonAuthoritativeInfo, r.JSON(response))
+	}
+
+	response, err := services.BuildResponseHandler("inserted", generateToken)
 	if err != nil {
 		return c.Render(http.StatusNoContent, r.JSON(authProc))
 	}
 
 	return c.Render(http.StatusOK, r.JSON(response))
-}
-
-func validateAndCreate(user *models.User) (*models.User, error) {
-	tx, _ := models.DB.NewTransaction()
-
-	check, err := user.FindUserByEmail(tx)
-	if err != nil {
-		return nil, err
-	}
-
-	if check == nil {
-		check, err := createUser(user)
-		if err != nil {
-			return nil, err
-		}
-
-		return check, nil
-	}
-
-	return check, nil
-
-}
-
-func createUser(data *models.User) (*models.User, error) {
-	tx, err := models.DB.NewTransaction()
-	if err != nil {
-		return nil, err
-	}
-
-	if err := tx.Create(data); err != nil {
-		tx.TX.Rollback()
-		return nil, err
-	}
-
-	tx.TX.Commit()
-
-	return data, nil
 }

@@ -27,3 +27,7 @@ invalid_format:
   code: 422
   tag: "INVALID_FORMAT"
   message: "invalid format request data"
+invalid_encryption:
+  code: 422
+  tag: "INVALID_FORMAT"
+  message: "invalid encryption data"

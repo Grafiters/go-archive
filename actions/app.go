@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"log"
 	"sync"
 
 	"archive/locales"
@@ -16,6 +17,7 @@ import (
 	"github.com/gobuffalo/middleware/i18n"
 	"github.com/gobuffalo/middleware/paramlogger"
 	"github.com/gobuffalo/x/sessions"
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 	buffaloSwagger "github.com/swaggo/buffalo-swagger"
 	"github.com/swaggo/buffalo-swagger/swaggerFiles"
@@ -44,6 +46,12 @@ var (
 
 // @host 127.0.0.1:3000
 func App() *buffalo.App {
+	err := godotenv.Load()
+	if err != nil {
+		// Handle the error (e.g., log it or exit the application)
+		log.Fatal("Error loading .env file")
+	}
+
 	appOnce.Do(func() {
 		app = buffalo.New(buffalo.Options{
 			Host:         "0.0.0.0",

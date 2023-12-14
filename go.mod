@@ -19,6 +19,7 @@ require (
 require (
 	cloud.google.com/go/compute v1.23.3 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/golang/protobuf v1.5.3 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
@@ -69,7 +70,7 @@ require (
 	github.com/jackc/pgtype v1.12.0 // indirect
 	github.com/jackc/pgx/v4 v4.17.2 // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
-	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/joho/godotenv v1.5.1
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/luna-duclos/instrumentedsql v1.1.3 // indirect
@@ -93,7 +94,7 @@ require (
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/swaggo/buffalo-swagger v1.2.0
 	github.com/swaggo/swag v1.16.2
-	golang.org/x/crypto v0.16.0 // indirect
+	golang.org/x/crypto v0.16.0
 	golang.org/x/mod v0.14.0 // indirect
 	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
