@@ -58,3 +58,10 @@ func (u *User) FindUserByEmail(tx *pop.Connection) (*User, error) {
 
 	return user, err
 }
+
+func FindUserId(tx *pop.Connection, uid string) (*User, error) {
+	user := &User{}
+	err := tx.Where("id = ?", uid).First(user)
+
+	return user, err
+}

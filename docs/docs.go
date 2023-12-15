@@ -47,19 +47,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth": {
-            "post": {
-                "description": "This is the auth endpoint.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Auth handler",
-                "responses": {}
-            }
-        },
         "/auth/google": {
             "post": {
                 "description": "This is the hello endpoint.",
@@ -84,7 +71,14 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/services.ResponseMetaData"
+                        }
+                    }
+                }
             }
         },
         "/public": {
@@ -152,9 +146,40 @@ const docTemplate = `{
                 ],
                 "responses": {}
             }
+        },
+        "/users/me": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Bearer YOUR_ACCESS_TOKEN",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
+        "interfaces.MetaData": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                }
+            }
+        },
         "interfaces.PaginationParam": {
             "type": "object",
             "properties": {
@@ -165,6 +190,15 @@ const docTemplate = `{
                 "page": {
                     "description": "Page Number of items in page (default: 1)",
                     "type": "integer"
+                }
+            }
+        },
+        "services.ResponseMetaData": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "meta": {
+                    "$ref": "#/definitions/interfaces.MetaData"
                 }
             }
         }

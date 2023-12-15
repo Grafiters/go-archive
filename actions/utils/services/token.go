@@ -6,14 +6,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
 var (
-	key *interfaces.KeyStore
-	err error
+	key    *interfaces.KeyStore
+	err    error
+	prefix = "Bearer "
 )
 
 func init() {
@@ -21,6 +24,22 @@ func init() {
 	if err != nil {
 		log.Fatalf("Failed to load Key Store")
 	}
+}
+
+func ParsingTokenHeader(r *http.Request) string {
+	authHeader := r.Header.Get("Authorization")
+
+	tokenStr := ""
+
+	if strings.HasPrefix(string(authHeader), prefix) {
+		tokenStr = authHeader[len(prefix):]
+	}
+
+	if r.URL.Query().Has("token") {
+		tokenStr = r.URL.Query().Get("token")
+	}
+
+	return tokenStr
 }
 
 func EncodeToken(user *models.User) (string, error) {

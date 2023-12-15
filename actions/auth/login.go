@@ -16,6 +16,7 @@ import (
 //  @Tags			Auth
 //	@Produce		json
 //	@Router			/auth/google [post]
+//	@Success		200	{object} services.ResponseMetaData
 func AuthLoginGoogle(c buffalo.Context) error {
 
 	loginGoogleData := interfaces.LoginGoogle{

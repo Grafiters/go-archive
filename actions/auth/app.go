@@ -7,12 +7,6 @@ import (
 	"github.com/gobuffalo/buffalo"
 )
 
-// 	Auth default implementation.
-//	@Summary		Auth handler
-//	@Description	This is the auth endpoint.
-//  @Tags			Auth
-//	@Produce		json
-//	@Router			/auth [post]
 func Configuration(app *buffalo.App) {
 	public := app.Group("/auth")
 
@@ -32,7 +26,6 @@ func validateAndCreate(user *models.User) (*models.User, error) {
 	}
 
 	return user, nil
-
 }
 
 func createUser(data *models.User) (*models.User, error) {

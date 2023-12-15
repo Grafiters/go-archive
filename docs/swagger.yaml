@@ -1,4 +1,13 @@
 definitions:
+  interfaces.MetaData:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+      tag:
+        type: string
+    type: object
   interfaces.PaginationParam:
     properties:
       limit:
@@ -7,6 +16,12 @@ definitions:
       page:
         description: 'Page Number of items in page (default: 1)'
         type: integer
+    type: object
+  services.ResponseMetaData:
+    properties:
+      data: {}
+      meta:
+        $ref: '#/definitions/interfaces.MetaData'
     type: object
 host: 127.0.0.1:3000
 info:
@@ -37,15 +52,6 @@ paths:
       summary: Welcome to Buffalo
       tags:
       - Default
-  /auth:
-    post:
-      description: This is the auth endpoint.
-      produces:
-      - application/json
-      responses: {}
-      summary: Auth handler
-      tags:
-      - Auth
   /auth/google:
     post:
       description: This is the hello endpoint.
@@ -60,7 +66,11 @@ paths:
         type: string
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.ResponseMetaData'
       summary: Auth google login
       tags:
       - Auth
@@ -107,4 +117,15 @@ paths:
       summary: Meme endpoint configuaration
       tags:
       - Public
+  /users/me:
+    get:
+      parameters:
+      - description: Bearer YOUR_ACCESS_TOKEN
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses: {}
+      tags:
+      - User
 swagger: "2.0"

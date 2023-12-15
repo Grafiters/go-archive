@@ -33,6 +33,6 @@ type KeyStore struct {
 }
 
 type SessionAuth struct {
-	User  models.User
-	Token string
+	User    models.User
+	Expired uint32
 }
