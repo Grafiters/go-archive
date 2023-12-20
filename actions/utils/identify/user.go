@@ -6,8 +6,8 @@ import (
 	"archive/models"
 	"fmt"
 	"log"
-	"net/http"
 
+	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop/v6"
 )
 
@@ -28,8 +28,8 @@ func init() {
 	}
 }
 
-func UserIdentify(r *http.Request) (*models.User, error) {
-	token := services.ParsingTokenHeader(r)
+func UserIdentify(c buffalo.Context) (*models.User, error) {
+	token := services.ParsingTokenHeader(c)
 	err := services.DecodeToken(token, &interfaceJwt)
 	if err != nil {
 		log.Fatal("Error decode jwt :", err)
@@ -54,6 +54,17 @@ func userData(jwtDecode interfaces.JwtAuth) (*models.User, error) {
 
 	var user *models.User
 	err := models.DB.Where("id = ?", mustUid).First(user)
+	if err != nil {
+		err := fmt.Errorf("User is not registered on system or Jwt Auth is invalid value")
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func UserDataDecode(email string) (*models.User, error) {
+	var user *models.User
+	err := models.DB.Where("id = ?", email).First(user)
 	if err != nil {
 		err := fmt.Errorf("User is not registered on system or Jwt Auth is invalid value")
 		return nil, err

@@ -4,7 +4,6 @@ import (
 	"archive/actions/auth"
 	"archive/actions/public"
 	"archive/actions/public/meme"
-	"archive/actions/user"
 	"archive/actions/utils/interfaces"
 
 	"github.com/gobuffalo/buffalo"
@@ -18,6 +17,6 @@ type ResponseData struct {
 func RouteConfiguration(app *buffalo.App) {
 	public.Configuration(app)
 	auth.Configuration(app)
-	user.Configuration(app)
 	meme.Configuration(app)
+	PrivateRouteConfiguration(app)
 }

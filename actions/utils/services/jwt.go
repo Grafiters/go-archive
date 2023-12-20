@@ -32,15 +32,14 @@ func appendClaims(defaultClaims, customClaims jwt.MapClaims) jwt.MapClaims {
 
 	return defaultClaims
 }
-func ForgeToken(uid string, email string, customClaims jwt.MapClaims, key *rsa.PrivateKey) (string, error) {
+func ForgeToken(uid string, customClaims jwt.MapClaims, key *rsa.PrivateKey) (string, error) {
 	claims := appendClaims(jwt.MapClaims{
-		"iat":   time.Now().Unix(),
-		"exp":   time.Now().UTC().Add(time.Hour).Unix(),
-		"sub":   "session",
-		"iss":   "ryudelta",
-		"aud":   [1]string{"ryudelta"},
-		"uid":   uid,
-		"email": email,
+		"iat": time.Now().Unix(),
+		"exp": time.Now().UTC().Add(time.Hour).Unix(),
+		"sub": "session",
+		"iss": "ryudelta",
+		"aud": [1]string{"ryudelta"},
+		"uid": uid,
 	}, customClaims)
 
 	t := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)

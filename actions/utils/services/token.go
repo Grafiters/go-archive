@@ -6,11 +6,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gobuffalo/buffalo"
 )
 
 var (
@@ -26,8 +26,8 @@ func init() {
 	}
 }
 
-func ParsingTokenHeader(r *http.Request) string {
-	authHeader := r.Header.Get("Authorization")
+func ParsingTokenHeader(c buffalo.Context) string {
+	authHeader := c.Request().Header.Get("Authorization")
 
 	tokenStr := ""
 
@@ -35,8 +35,8 @@ func ParsingTokenHeader(r *http.Request) string {
 		tokenStr = authHeader[len(prefix):]
 	}
 
-	if r.URL.Query().Has("token") {
-		tokenStr = r.URL.Query().Get("token")
+	if c.Request().URL.Query().Has("token") {
+		tokenStr = c.Request().URL.Query().Get("token")
 	}
 
 	return tokenStr
@@ -71,8 +71,7 @@ func DecodeToken(tokenString string, target interface{}) error {
 	})
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		recordBytes := claims["record"].(map[string]interface{})
-		recordJSON, err := json.Marshal(recordBytes)
+		recordJSON, err := json.Marshal(claims)
 		if err != nil {
 			return err
 		}

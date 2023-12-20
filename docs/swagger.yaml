@@ -125,7 +125,10 @@ paths:
         name: Authorization
         required: true
         type: string
+      produces:
+      - application/json
       responses: {}
       tags:
       - User
+      - Auth
 swagger: "2.0"

@@ -149,8 +149,12 @@ const docTemplate = `{
         },
         "/users/me": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
-                    "User"
+                    "User",
+                    "Auth"
                 ],
                 "parameters": [
                     {
