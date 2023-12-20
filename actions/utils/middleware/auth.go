@@ -4,8 +4,6 @@ import (
 	"archive/actions/utils/identify"
 	"archive/actions/utils/interfaces"
 	"archive/actions/utils/services"
-	"archive/models"
-	"log"
 
 	"github.com/gobuffalo/buffalo"
 )
@@ -22,13 +20,12 @@ func Authenticate(c buffalo.Context) (any, bool) {
 	return jwtAuth, true
 }
 
-func CurrentUser(c buffalo.Context) (*models.User, bool) {
+func CurrentUser(c buffalo.Context) (*interfaces.UserMe, bool) {
 	userData := c.Value("userData").(interfaces.JwtAuth)
-	mustUID := userData.UID
+	mustUID := userData.Email
 
 	user, err := identify.UserDataDecode(mustUID)
 	if err != nil {
-		log.Fatal(err)
 		return nil, false
 	}
 	return user, true

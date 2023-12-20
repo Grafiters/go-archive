@@ -62,13 +62,23 @@ func userData(jwtDecode interfaces.JwtAuth) (*models.User, error) {
 	return user, nil
 }
 
-func UserDataDecode(email string) (*models.User, error) {
-	var user *models.User
-	err := models.DB.Where("id = ?", email).First(user)
+func UserDataDecode(email string) (*interfaces.UserMe, error) {
+	user := &models.User{}
+	err := models.DB.Where("users.email = ?", email).First(user)
 	if err != nil {
+		fmt.Println(err)
 		err := fmt.Errorf("User is not registered on system or Jwt Auth is invalid value")
 		return nil, err
 	}
 
-	return user, nil
+	convert := ConvertToUserMe(user)
+	return convert, nil
+}
+
+func ConvertToUserMe(user *models.User) *interfaces.UserMe {
+	return &interfaces.UserMe{
+		UID:      user.ID,
+		Email:    user.Email,
+		Username: user.Username,
+	}
 }

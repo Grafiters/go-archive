@@ -44,12 +44,12 @@ func ParsingTokenHeader(c buffalo.Context) string {
 
 func EncodeToken(user *models.User) (string, error) {
 	claims := jwt.MapClaims{
-		"iat": time.Now().Unix(),
-		"exp": time.Now().UTC().Add(time.Hour).Unix(),
-		"sub": "session",
-		"iss": "ryudelta",
-		"aud": [1]string{"ryudelta"},
-		"uid": user.ID,
+		"iat":   time.Now().Unix(),
+		"exp":   time.Now().UTC().Add(time.Hour).Unix(),
+		"sub":   "session",
+		"iss":   "ryudelta",
+		"aud":   [1]string{"ryudelta"},
+		"email": user.Email,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)

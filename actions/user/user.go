@@ -11,7 +11,6 @@ import (
 // 	UserUserIndex default implementation.
 //	@Tags			User
 // 	@Param Authorization header string true "Bearer YOUR_ACCESS_TOKEN"
-//  @Tags			Auth
 //	@Produce		json
 //	@Router			/users/me [get]
 func UserUserIndex(c buffalo.Context) error {
@@ -20,7 +19,6 @@ func UserUserIndex(c buffalo.Context) error {
 		buildMessage, _ := services.BuildResponseHandler("unauthorized", "")
 		return c.Render(http.StatusNonAuthoritativeInfo, r.JSON(buildMessage))
 	}
-
 	response, errRes := services.BuildResponseHandler("success", currentUser)
 	if errRes != nil {
 		return c.Render(http.StatusNoContent, r.JSON(err))

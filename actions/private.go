@@ -23,6 +23,7 @@ func MiddlewareAuth(next buffalo.Handler) buffalo.Handler {
 }
 
 func PrivateRouteConfiguration(app *buffalo.App) {
-	app.Use(MiddlewareAuth)
-	user.Configuration(app)
+	private := app.Group("/")
+	private.Use(MiddlewareAuth)
+	user.Configuration(private)
 }

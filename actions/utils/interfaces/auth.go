@@ -5,6 +5,7 @@ import (
 	"crypto/rsa"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gofrs/uuid"
 )
 
 type LoginGoogle struct {
@@ -35,4 +36,10 @@ type KeyStore struct {
 type SessionAuth struct {
 	User    models.User
 	Expired uint32
+}
+
+type UserMe struct {
+	UID      uuid.UUID `json:"id" db:"id"`
+	Email    string    `json:"email" db:"email"`
+	Username string    `json:"username" db:"username"`
 }
