@@ -1,7 +1,12 @@
 package coment
 
 import (
-	database "archive/db"
+	"bufio"
+	"log"
+	"os"
+	"strings"
+
+	database "github.com/Grafiters/archive/db"
 
 	"fmt"
 
@@ -34,11 +39,66 @@ var Commands = []CommandDefinition{
 		},
 	},
 	{
-		Use:   "drop:migrate",
+		Use:   "db:migrate",
 		Short: "Run database migrations",
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("Running database migrations...")
+			err := database.Migrate("up", "")
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Println("Done database migrations...")
+		},
+	},
+	{
+		Use:   "db:rollback:all",
+		Short: "rollback all table",
+		Run: func(cmd *cobra.Command, args []string) {
+			reader := bufio.NewReader(os.Stdin)
+			fmt.Print("Are you sure you want to rollback all tables? (y/n): ")
+			confirmation, _ := reader.ReadString('\n')
+			confirmation = strings.ToLower(strings.TrimSpace(confirmation))
 
+			if confirmation == "y" {
+				err := database.Migrate("down", "")
+				if err != nil {
+					log.Fatalf("Error rolling back all migrations: %v", err)
+				}
+				fmt.Println("All migrations rolled back successfully!")
+			} else {
+				fmt.Println("Rollback operation canceled.")
+			}
+		},
+	},
+	{
+		Use:   "db:rollback",
+		Short: "Run single table",
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Print("Are you sure you want to rollback all tables? (y/n): ")
+			if len(args) < 1 {
+				fmt.Printf("Rolling back migrations for table: %s\n", "")
+				err := database.Migrate("down", "")
+				if err != nil {
+					fmt.Println(err)
+				}
+				fmt.Println("Done database migrations...")
+			} else {
+				tableName := args[0]
+				reader := bufio.NewReader(os.Stdin)
+				confirmation, _ := reader.ReadString('\n')
+				confirmation = strings.ToLower(strings.TrimSpace(confirmation))
+
+				if confirmation == "y" {
+					fmt.Printf("Rolling back migrations for table: %s\n", tableName)
+					err := database.Migrate("down", tableName)
+					if err != nil {
+						fmt.Println(err)
+					}
+					fmt.Println("Done database migrations...")
+				} else {
+					fmt.Println("Rollback operation canceled.")
+				}
+			}
 		},
 	},
 	{

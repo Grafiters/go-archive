@@ -10,7 +10,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+var (
+	db            *sql.DB
+	DnsConnection string
+)
 
 func ConfigDB() (*sql.DB, error) {
 	err := godotenv.Load()
@@ -38,6 +41,8 @@ func ConfigDB() (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	DnsConnection = fmt.Sprintf("%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbName)
 
 	return db, nil
 }
@@ -75,6 +80,35 @@ func InitDB() (*sql.DB, error) {
 	return db, nil
 }
 
+func ConfigDBBase() (*sql.DB, error) {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Error loading .env file:", err)
+	}
+
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASS")
+
+	connectionString := fmt.Sprintf("user=%s password=%s host=%s port=%s sslmode=disable", user, password, host, port)
+
+	conn, err := sql.Open("postgres", connectionString)
+	if err != nil {
+		errorText := err
+		fmt.Println(errorText)
+		return nil, err
+	}
+
+	db := conn
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
+}
+
 func createDatabase(db *sql.DB, dbName string) {
 	createDBQuery := fmt.Sprintf("CREATE DATABASE %s", dbName)
 
@@ -99,8 +133,9 @@ func DatabaseExists() (bool, error) {
 
 func DeleteDatabase(db *sql.DB) error {
 	dbName := os.Getenv("DB_NAME")
-	fmt.Println(dbName)
-	_, err := db.Exec(fmt.Sprintf("DROP DATABASE %s", dbName))
+	dropDBQuery := fmt.Sprintf("DROP DATABASE %s", dbName)
+	_, err := db.Exec(dropDBQuery)
+	fmt.Println(err)
 	return err
 }
 

@@ -1,9 +1,10 @@
 package main
 
 import (
-	"archive/task/coment"
 	"fmt"
 	"os"
+
+	"github.com/Grafiters/archive/task/coment"
 
 	"github.com/spf13/cobra"
 )
