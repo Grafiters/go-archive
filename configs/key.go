@@ -36,7 +36,7 @@ func LoadKeys() (*JwtService, error) {
 }
 
 func LoadPublicKey() (*rsa.PublicKey, error) {
-	privKeyPEM := filepath.Join("config", "secret", "public_key.pem")
+	privKeyPEM := filepath.Join("configs", "secret", "public_key.pem")
 	pem, err := ioutil.ReadFile(privKeyPEM)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func LoadPublicKey() (*rsa.PublicKey, error) {
 }
 
 func LoadPrevKey() (*rsa.PrivateKey, error) {
-	privKeyPEM := filepath.Join("config", "secret", "private_key.pem")
+	privKeyPEM := filepath.Join("configs", "secret", "private_key.pem")
 	pem, err := ioutil.ReadFile(privKeyPEM)
 	if err != nil {
 		return nil, err

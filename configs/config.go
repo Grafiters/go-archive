@@ -9,6 +9,7 @@ import (
 var (
 	DataBase  *gorm.DB
 	JwtConfig *JwtService
+	Logger    *LoggerFormat
 )
 
 func Initialize() error {
@@ -25,6 +26,8 @@ func Initialize() error {
 		return err
 	}
 	JwtConfig = jwt
+
+	Logger = NewLogger()
 
 	return nil
 }

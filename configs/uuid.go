@@ -7,7 +7,7 @@ type UID string
 const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 func Generate(identifier string) string {
-	var length int = 5
+	var length int = 10
 
 	b := make([]byte, length)
 	for i := range b {
