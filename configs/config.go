@@ -13,12 +13,14 @@ var (
 )
 
 func Initialize() error {
-	db, err := NewDatabase()
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-	DataBase = db
+	Logger = NewLogger()
+
+	// db, err := NewDatabase()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// 	return err
+	// }
+	DataBase = nil
 
 	jwt, err := NewJwtConfig()
 	if err != nil {
@@ -26,8 +28,6 @@ func Initialize() error {
 		return err
 	}
 	JwtConfig = jwt
-
-	Logger = NewLogger()
 
 	return nil
 }

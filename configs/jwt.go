@@ -3,7 +3,6 @@ package configs
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/Grafiters/archive/app/models"
@@ -12,7 +11,7 @@ import (
 
 var (
 	tokens string
-	Prefix string = "Bearer"
+	Prefix string = "Bearer "
 	err    error
 )
 
@@ -48,7 +47,7 @@ func (js *JwtService) GenerateTokenSession(payload *models.User) (string, error)
 	rawToken := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
 	tokens, err = rawToken.SignedString(js.PrivateKey)
 	if err != nil {
-		log.Fatal("Error Signed : %s", err)
+		Logger.Error("Error Signed : %s", err)
 		return "", err
 	}
 
