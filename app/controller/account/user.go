@@ -1,8 +1,8 @@
 package account
 
 import (
-	"github.com/Grafiters/archive/app/controller/helpers"
 	"github.com/Grafiters/archive/app/models"
+	"github.com/Grafiters/archive/configs/response"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -19,7 +19,7 @@ import (
 func GetUsersMe(c *fiber.Ctx) error {
 	CurrentUser := c.Locals("CurrentUser").(*models.User)
 
-	return c.Status(200).JSON(&helpers.Response{
+	return c.Status(200).JSON(&response.Success{
 		Code:   200,
 		Status: true,
 		Data:   CurrentUser,

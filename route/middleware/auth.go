@@ -2,10 +2,10 @@ package middleware
 
 import (
 	"strings"
-	"time"
 
 	"github.com/Grafiters/archive/app/models"
 	"github.com/Grafiters/archive/configs"
+	"github.com/Grafiters/archive/configs/response"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )
@@ -15,39 +15,37 @@ type Auth struct {
 	jwt.StandardClaims
 }
 
-var (
-	AuthzInvalidSession = "authz.invalid_session"
-	JwtDecodeAndVerify  = "jwt.decode_and_verify"
-	ServerInternalError = "server.internal_error"
-)
-
 func Authenticate(c *fiber.Ctx) error {
+	var (
+		jwtMember Auth
+		member    *models.User
+	)
 	token := c.Get("Authorization")
 	if len(token) == 0 {
 		return c.Status(401).JSON(fiber.Map{
-			"errors": []string{AuthzInvalidSession},
+			"errors": []string{response.AuthzInvalidSession},
 		})
 	}
 
 	token = strings.Replace(token, configs.Prefix, "", -1)
 
-	data := &models.User{
-		ID:        1,
-		UID:       configs.Generate("UID"),
-		Email:     "alone@gmail.com",
-		GoogleID:  "1234566213",
-		Password:  "1234566",
-		CreatedAT: time.Now(),
-		UpdatedAT: time.Now(),
-	}
-
-	err := configs.JwtConfig.DecodeTokenSession(token, data)
+	err := configs.JwtConfig.DecodeTokenSession(token, jwtMember)
 	if err != nil {
 		return c.Status(401).JSON(fiber.Map{
-			"errors": []string{JwtDecodeAndVerify},
+			"errors": []string{response.JwtDecodeAndVerify},
 		})
 	}
-	c.Locals("CurrentUser", data)
+
+	configs.DataBase.Where("uid = ?", jwtMember.IDF).First(&member)
+	if member == nil {
+		return c.Status(401).JSON(&response.Errors{
+			Code:   401,
+			Status: false,
+			Errors: []string{response.JwtDecodeAndVerify},
+		})
+	}
+
+	c.Locals("CurrentUser", member)
 
 	return c.Next()
 }

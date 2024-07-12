@@ -19,6 +19,7 @@ var (
 type GoogleData struct {
 	Email     string `json:"email"`
 	Name      string `json:"name"`
+	GoogleID  string `json:"gooogle_id"`
 	GivenName string `json:"given_name"`
 	Picture   string `json:"picture"`
 }

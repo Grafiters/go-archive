@@ -39,8 +39,8 @@ func (js *JwtService) GenerateTokenSession(payload *models.User) (string, error)
 	claims := jwt.MapClaims{
 		"iat": time.Now().Unix(),
 		"exp": time.Now().UTC().Add(time.Hour).Unix(),
-		"sub": "session",
-		"iss": "ryudelta",
+		"sub": "auth",
+		"iss": "challenge",
 		"idf": payload.UID,
 	}
 

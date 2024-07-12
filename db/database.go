@@ -62,6 +62,7 @@ func Migrate(direction string, table string) error {
 	migrateCmd.Stderr = os.Stderr
 
 	if err := migrateCmd.Run(); err != nil {
+		log.Println(err)
 		log.Fatalf("Failed to run migrations: %v", err)
 	}
 

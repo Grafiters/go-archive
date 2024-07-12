@@ -12,12 +12,12 @@ type SessionGooglePayload struct {
 
 type RegisterUserPayload struct {
 	Email    string `json:"email" form:"email" validate:"required"`
-	Password string `json:"password" form:"password" validate:"required"`
+	Password string `json:"password" form:"password" validate:"required,min=6"`
 }
 
 type SessionLoginEmail struct {
 	Email    string `json:"email" form:"email" validate:"required"`
-	Password string `json:"password" form:"password" validate:"required"`
+	Password string `json:"password" form:"password" validate:"required,min=6"`
 }
 
 func (p SessionGooglePayload) Messages() map[string]string {
